@@ -1,4 +1,4 @@
-# 1º DAM/CAD (java)
+# 1º DAM/CAD (SQL)
 
 ### ESP/SPA
 Ejercicios hechos en clase durante el primer año de Desarrollo de Aplicaciones Multiplataforma
