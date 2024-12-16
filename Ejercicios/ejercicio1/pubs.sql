@@ -52,7 +52,7 @@ CREATE TABLE IF NOT EXISTS existencias (
 CREATE TABLE IF NOT EXISTS pub_empleado (
   cod_pub SMALLINT UNSIGNED NOT NULL,
   dni_empleado CHAR(9) NOT NULL,
-  funcion ENUM('CAMARERO', 'SEGURIDAD', 'LIMPIEZA') NOT NULL,
+  funcion ENUM('camarero', 'seguridad', 'limpieza') NOT NULL,
   PRIMARY KEY (cod_pub, dni_empleado, funcion),
   FOREIGN KEY (cod_pub) REFERENCES pub(cod_pub),
   FOREIGN KEY (dni_empleado) REFERENCES empleado(dni_empleado)
