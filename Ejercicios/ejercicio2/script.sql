@@ -49,7 +49,8 @@ trabajo_cod SMALLINT UNSIGNED UNIQUE,
 fecha_inicio DATE UNIQUE,
 fecha_fin DATE NOT NULL,
 dpto_cod SMALLINT UNSIGNED NOT NULL,
-supervisor_dni CHAR(9) NOT NULL
+supervisor_dni CHAR(9) NOT NULL,
+CONSTRAINT CK_historial_laboral_fechainiciomenorquefin CHECK (fecha_inicio<fecha_fin)
 );
 
 -- Creamos la tabla HISTORIAL_SALARIAL
@@ -57,7 +58,8 @@ CREATE TABLE IF NOT EXISTS historial_salarial (
 empleado_dni CHAR(9) PRIMARY KEY,
 salario FLOAT NOT NULL,
 fecha_comienzo DATE UNIQUE,
-fecha_fin DATE NOT NULL
+fecha_fin DATE NOT NULL,
+
 );
 
 -- Creamos la tabla UNIVERSIDADES
@@ -74,7 +76,8 @@ CREATE TABLE IF NOT EXISTS trabajos (
 trabajo_cod SMALLINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
 nombre_trab VARCHAR(20) NOT NULL,
 salario_min FLOAT NOT NULL,
-salario_max FLOAT NOT NULL
+salario_max FLOAT NOT NULL,
+CONSTRAINT CK_trabajos_salarios_mayoresque0 CHECK(salario_min>0 AND salario_MAX>0)
 );
 
 
@@ -119,4 +122,3 @@ FOREIGN KEY (universidad) REFERENCES universidades(univ_cod);
 ALTER TABLE departamentos
 ADD CONSTRAINT FK_departamentos_departamentos_dptocod
 FOREIGN KEY (dpto_padre) REFERENCES departamentos(dpto_cod);
-
