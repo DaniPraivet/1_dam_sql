@@ -31,31 +31,32 @@ ORDER BY COUNT(gr.nombre) DESC;
 SELECT gr.nombre, COUNT(ag.id_grado)
 FROM grado gr LEFT JOIN asignatura ag ON gr.id=ag.id_grado
 GROUP BY gr.id
-HAVING(COUNT(ag.id_grado)>50);
+HAVING(COUNT(ag.id_grado)>40);
 
     /* Devuelve un listado que muestre el nombre de los grados y la suma del número total de créditos que hay para cada 
        tipo de asignatura. El resultado debe tener tres columnas: nombre del grado, tipo de asignatura y la suma de los 
        créditos de todas las asignaturas que hay de ese tipo. Ordene el resultado de mayor a menor por el número total de 
        crédidos. */
-SELECT gr.nombre, ag.nombre, SUM(ag.creditos) "Suma créditos"
+SELECT gr.nombre, ag.tipo, SUM(ag.creditos) "Suma créditos"
 FROM grado gr JOIN asignatura ag ON gr.id=ag.id_grado
-GROUP BY ag.id;
+GROUP BY gr.nombre, ag.tipo
+ORDER BY SUM(ag.creditos) DESC;
 
     /* Devuelve un listado que muestre cuántos alumnos se han matriculado de alguna asignatura en cada uno de los cursos 
        escolares. El resultado deberá mostrar dos columnas, una columna con el año de inicio del curso escolar y otra 
        con el número de alumnos matriculados.*/
-SELECT ama.id_asignatura, COUNT(ama.id_alumno) "Alumnos por asignatura"
+SELECT ce.anyo_inicio "Curso año inicio", COUNT(ama.id_alumno) "Alumnos"
 FROM alumno_se_matricula_asignatura ama
-JOIN curso_escolar ce ON ama.id_curso_escolar=ce.id
-GROUP BY ama.id_alumno;
+RIGHT JOIN curso_escolar ce ON ama.id_curso_escolar=ce.id
+GROUP BY ce.anyo_inicio;
 
 
     /* Devuelve un listado con el número de asignaturas que imparte cada profesor. El listado debe tener en cuenta 
        aquellos profesores que no imparten ninguna asignatura. El resultado mostrará cinco columnas: id, nombre, 
        primer apellido, segundo apellido y número de asignaturas. El resultado estará ordenado de mayor a menor por 
        el número de asignaturas. */
-SELECT pe.nombre "Nombre profesor",COUNT(pe.nombre)
+SELECT pe.id, pe.nombre "Nombre profesor", pe.apellido1, pe.apellido2,COUNT(ag.id), COUNT(pe.id)
 FROM asignatura ag
-right JOIN profesor p ON ag.id_profesor=p.id_profesor
+RIGHT JOIN profesor p ON ag.id_profesor=p.id_profesor
 JOIN persona pe ON pe.id=p.id_profesor
-GROUP BY (pe.nombre);
+GROUP BY (pe.id, pe.nombre, pe.apellido1, pe.apellido2, ag.id);
