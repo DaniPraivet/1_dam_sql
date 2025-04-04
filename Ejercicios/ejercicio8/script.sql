@@ -52,7 +52,7 @@ WHERE year(p.fecha_nacimiento)=1999;
 SELECT * FROM persona p JOIN alumno_se_matricula_asignatura ama ON p.id=ama.id_alumno
 						JOIN asignatura ag ON ama.id_asignatura=ag.id
 ORDER BY ag.nombre DESC, p.nombre DESC;
-
+departamentoempleado
 -- • Devuelve un listado con el nombre de las asignaturas, año de inicio y año de fin del curso
 -- escolar del alumno con nif 26902806M.
 SELECT * FROM persona p JOIN alumno_se_matricula_asignatura ama ON p.id=ama.id_alumno
