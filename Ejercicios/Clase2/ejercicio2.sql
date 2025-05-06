@@ -1,39 +1,42 @@
 USE jardineria;
 
-DROP PROCEDURE IF EXISTS mostrar_productos_sin_venta;
+DROP PROCEDURE IF EXISTS aumentar_credito_clientes;
 
 DELIMITER //
 
-CREATE PROCEDURE mostrar_productos_sin_venta()
+CREATE PROCEDURE aumentar_credito_clientes()
     BEGIN
-        DECLARE v_nombre VARCHAR(70);
-        DECLARE v_precio_venta decimal (15,2);
-        DECLARE v_cantidad_en_stock SMALLINT;
-        DECLARE v_codigo_producto VARCHAR(15);
-        DECLARE v_cuenta int UNSIGNED
+        DECLARE v_fin BOOLEAN DEFAULT FALSE;
+        DECLARE v_codigo_cliente INT;
+        DECLARE v_pais VARCHAR(50);
+        DECLARE v_limite_credito DECIMAL(15,2);
 
-        DECLARE v_hay_registros BOOLEAN DEFAULT 1;
+        DECLARE c_clientes CURSOR FOR 
+            SELECT codigo_cliente, pais, limite_credito FROM cliente;
 
-        DECLARE c_producto CURSOR FOR
-            SELECT nombre, precio_venta, cantidad_en_stock, codigo_producto
-            FROM producto;
+        DECLARE CONTINUE HANDLER FOR NOT FOUND SET v_fin = TRUE;
 
-        DECLARE CONTINUE HANDLER FOR NOT FOUND SET v_hay_registros=0;
+        OPEN c_clientes;
 
-        OPEN c_producto;
-
-        WHILE v_hay_registros DO
-            FETCH c_producto INTO v_nombre, v_precio_venta, v_cantidad_en_stock;
-            INTO v_nombre, v_precio_venta, v_cantidad_en_stock, v_codigo_producto;
-
-            SELECT COUNT(*) INTO v_cuenta FROM detalle_pedido
-            WHERE codigo_producto=v_codigo_producto;
-
-            IF v_cuenta = 0 THEN
-                SELECT CONCAT('Producto: ', v_nombre, ' ,precio: ',
-                v_precio_venta, ' ,cantidad: ', v_cantidad_en_stock)
+        bucle: LOOP
+            FETCH c_clientes INTO v_codigo_cliente, v_pais, v_limite_credito;
+            IF v_fin THEN 
+                LEAVE bucle;
             END IF;
-        END WHILE;
-        CLOSE c_producto;
+
+            IF v_pais = 'España' THEN
+                SET v_limite_credito = v_limite_credito * 1.08;
+            ELSEIF v_pais = 'USA' THEN
+                SET v_limite_credito = v_limite_credito * 1.08;
+            ELSE
+                SET v_limite_credito = v_limite_credito * 1.05;
+            END IF;
+
+            UPDATE cliente 
+            SET limite_credito = v_limite_credito
+            WHERE codigo_cliente = v_codigo_cliente;
+        END LOOP;
+
+        CLOSE c_clientes;
     END;
     //
