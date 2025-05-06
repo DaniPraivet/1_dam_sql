@@ -1,7 +1,13 @@
 USE jardineria;
 
 DROP PROCEDURE IF EXISTS mostrar_productos_sin_venta;
+/*
+Crea un procedimiento que muestre en pantalla los productos que nunca se
+han vendido. Para ello, recorre con un cursor la tabla de productos y
 
+comprueba si aparece en la tabla detalle_pedido. Si no aparece muestra el
+nombre y el precio_venta y la cantidad_en_stock
+*/
 DELIMITER //
 
 CREATE PROCEDURE mostrar_productos_sin_venta()

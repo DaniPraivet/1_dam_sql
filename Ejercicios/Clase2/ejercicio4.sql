@@ -1,5 +1,11 @@
 USE jardineria;
 
+/*
+Crea un procedimiento que recorra la tabla producto y aumente el en un 10% el
+precio_venta de aquellos artículos cuya cantidad_en_stock sea menor que 5
+unidades. Muestra el nombre, el precio antiguo y el nuevo de los productos
+actualizados.
+*/
 DROP PROCEDURE IF EXISTS aumentar_precio_productos;
 
 DELIMITER //

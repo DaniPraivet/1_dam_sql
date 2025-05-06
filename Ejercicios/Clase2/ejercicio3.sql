@@ -1,5 +1,9 @@
 USE jardineria;
 
+/*
+Haz un procedimiento que detecte los clientes que no han hecho pedidos en el
+último año. Muestra un listado de los clientes con su nombre y teléfono.
+*/
 DROP PROCEDURE IF EXISTS clientes_sin_pedidos_ultimo_anio;
 
 DELIMITER //

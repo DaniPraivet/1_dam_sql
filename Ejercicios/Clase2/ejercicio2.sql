@@ -1,5 +1,13 @@
 USE jardineria;
 
+/*
+Crea un procedimiento que amplie el crédito de los clientes de la siguiente
+manera:
+• Si el cliente es de España, se le subirá el crédito en un 8%
+• Si es de USA, se incrementa en un 8%
+• En cualquier otro caso se le incrementa un 5%
+*/
+
 DROP PROCEDURE IF EXISTS aumentar_credito_clientes;
 
 DELIMITER //
