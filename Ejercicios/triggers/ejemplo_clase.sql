@@ -8,11 +8,12 @@ SELECT * FROM producto;
 SELECT * FROM pedido;
 SELECT * FROM detalle_pedido;
 
-DROP TRIGGER IF EXISTS actualizar_stock_insertar;
+/* Trigger para insertar*/
+DROP TRIGGER IF EXISTS actualizar_stock_insert;
 
 DELIMITER //
 
-CREATE TRIGGER actualizar_stock_insertar
+CREATE TRIGGER actualizar_stock_insert
 BEFORE INSERT ON detalle_pedido FOR EACH ROW
 BEGIN
     UPDATE producto SET cantidad_en_stock=cantidad_en_stock-NEW.cantidad
@@ -23,6 +24,25 @@ END;
 DELIMITER ;
 
 SELECT * FROM PRODUCTO WHERE codigo_producto='FR-67';
+
+/* Trigger para actualizar*/
+DROP TRIGGER IF EXISTS actualizar_stock_update;
+
+DELIMITER //
+CREATE TRIGGER actualizar_stock_update
+BEFORE UPDATE ON detalle_pedido FOR EACH ROW
+BEGIN
+    DECLARE v_diferencia INT;
+    
+    IF OLD.cantidad != NEW.cantidad THEN
+        SET v_diferencia = OLD.cantidad-NEW.cantidad;
+        UPDATE producto SET cantidad_en_stock=cantidad_en_stock+v_incremento
+        WHERE codigo_producto=NEW.codigo_producto;
+    END IF;
+END;
+//
+
+DELIMITER ;
 
 
 INSERT INTO 
