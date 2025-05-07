@@ -16,7 +16,7 @@ CREATE PROCEDURE mostrar_productos_sin_venta()
         DECLARE v_precio_venta decimal (15,2);
         DECLARE v_cantidad_en_stock SMALLINT;
         DECLARE v_codigo_producto VARCHAR(15);
-        DECLARE v_cuenta int UNSIGNED
+        DECLARE v_cuenta int UNSIGNED;
 
         DECLARE v_hay_registros BOOLEAN DEFAULT 1;
 
@@ -29,7 +29,7 @@ CREATE PROCEDURE mostrar_productos_sin_venta()
         OPEN c_producto;
 
         WHILE v_hay_registros DO
-            FETCH c_producto INTO v_nombre, v_precio_venta, v_cantidad_en_stock;
+            FETCH c_producto
             INTO v_nombre, v_precio_venta, v_cantidad_en_stock, v_codigo_producto;
 
             SELECT COUNT(*) INTO v_cuenta FROM detalle_pedido
@@ -37,9 +37,10 @@ CREATE PROCEDURE mostrar_productos_sin_venta()
 
             IF v_cuenta = 0 THEN
                 SELECT CONCAT('Producto: ', v_nombre, ' ,precio: ',
-                v_precio_venta, ' ,cantidad: ', v_cantidad_en_stock)
+                v_precio_venta, ' ,cantidad: ', v_cantidad_en_stock);
             END IF;
         END WHILE;
         CLOSE c_producto;
     END;
     //
+    DELIMITER ;
