@@ -34,10 +34,12 @@ CREATE PROCEDURE clientes_sin_pedidos_ultimo_anio()
             WHERE codigo_cliente = v_codigo_cliente;
 
             IF v_fecha_ultimo_pedido IS NULL OR v_fecha_ultimo_pedido < (CURRENT_DATE - INTERVAL 1 YEAR) THEN
-                SELECT v_nombre_cliente AS nombre, v_telefono AS telefono;
+                SELECT v_nombre_cliente AS nombre, v_telefono AS telefono; 
             END IF;
         END LOOP;
 
         CLOSE c_clientes;
     END;
     //
+
+    CALL clientes_sin_pedidos_ultimo_anio();

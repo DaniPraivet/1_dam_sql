@@ -19,7 +19,7 @@ BEGIN
     DECLARE v_nuevo_precio DECIMAL(15,2);
     DECLARE v_stock SMALLINT(6);
 
-    DECLARE c_productos CURSOR FOR 
+    DECLARE c_productos CURSOR FOR
         SELECT codigo_producto, nombre, precio_venta, cantidad_en_stock 
         FROM producto;
 

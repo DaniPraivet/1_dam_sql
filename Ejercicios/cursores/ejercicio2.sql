@@ -48,3 +48,7 @@ CREATE PROCEDURE aumentar_credito_clientes()
         CLOSE c_clientes;
     END;
     //
+
+SELECT codigo_cliente, pais, limite_credito FROM cliente;
+
+CALL aumentar_credito_clientes();
