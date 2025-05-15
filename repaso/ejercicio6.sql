@@ -13,12 +13,10 @@ CREATE TRIGGER before_empleado_delete
 BEFORE DELETE ON empleado
 FOR EACH ROW
 BEGIN
-    -- Variables
     DECLARE fin INT DEFAULT 0;
     DECLARE v_cliente INT;
     DECLARE v_nuevo_empleado INT;
 
-    -- Cursor para recorrer los clientes del empleado eliminado
     DECLARE c_clientes CURSOR FOR
         SELECT codigo_cliente
         FROM cliente
@@ -34,7 +32,6 @@ BEGIN
             LEAVE bucle_clientes;
         END IF;
 
-        -- Buscar el empleado con menos clientes (excluyendo el que se va)
         SELECT e.codigo_empleado
         INTO v_nuevo_empleado
         FROM empleado e
@@ -44,7 +41,6 @@ BEGIN
         ORDER BY COUNT(c.codigo_cliente) ASC
         LIMIT 1;
 
-        -- Asignar el cliente al nuevo empleado
         UPDATE cliente
         SET codigo_empleado_rep_ventas = v_nuevo_empleado
         WHERE codigo_cliente = v_cliente;
